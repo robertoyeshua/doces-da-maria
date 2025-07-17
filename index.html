@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Doces da Maria - Loja Online</title>
+<style>
+  /* Reset básico */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; padding: 0;
+    background: #fff8f0;
+    color: #5a3e36;
+  }
+  header {
+    background: #d2691e;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0;
+  }
+  nav {
+    background: #8b4513;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  nav a {
+    color: white;
+    text-decoration: none;
+    padding: 1rem;
+    font-weight: 600;
+  }
+  nav a:hover {
+    background: #a0522d;
+  }
+  main {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+  section {
+    margin-bottom: 3rem;
+  }
+  h2 {
+    border-bottom: 2px solid #d2691e;
+    padding-bottom: 0.5rem;
+  }
+  /* Produtos */
+  .produtos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
+    gap: 1.5rem;
+  }
+  .produto-card {
+    background: #fff3e6;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .produto-card img {
+    max-width: 100%;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+  }
+  .produto-info h3 {
+    margin: 0 0 0.5rem 0;
+  }
+  .produto-info p {
+    font-size: 0.9rem;
+    margin: 0 0 1rem 0;
+    flex-grow: 1;
+  }
+  .produto-info .preco {
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #b3541e;
+  }
+  .btn-comprar {
+    background: #d2691e;
+    color: white;
+    border: none;
+    padding: 0.6rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .btn-comprar:hover {
+    background: #a0522d;
+  }
+  /* Carrinho */
+  #carrinho {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    background: #d2691e;
+    color: white;
+    width: 300px;
+    max-height: 80vh;
+    transform: translateY(-50%);
+    padding: 1rem;
+    box-shadow: -3px 3px 10px rgb(0 0 0 / 0.3);
+    overflow-y: auto;
+    border-radius: 8px 0 0 8px;
+    font-size: 0.9rem;
+    z-index: 1000;
+  }
+  #carrinho h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+  .item-carrinho {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.6rem;
+  }
+  .item-carrinho span {
+    flex-grow: 1;
+  }
+  .item-carrinho button {
+    background: transparent;
+    border: none;
+    color: #ffcccc;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  #total {
+    margin-top: 1rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    border-top: 1px solid #ffb66b;
+    padding-top: 0.8rem;
+  }
+  #btn-whatsapp {
+    margin-top: 1rem;
+    background: #25d366;
+    border: none;
+    color: white;
+    padding: 0.8rem;
+    width: 100%;
+    font-weight: 700;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  #btn-whatsapp:hover {
+    background: #128c45;
+  }
+  /* Sobre e Contato */
+  .sobre, .contato {
+    background: #fff3e6;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  .contato form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .contato label {
+    font-weight: 600;
+  }
+  .contato input, .contato textarea {
+    padding: 0.5rem;
+    border: 1px solid #d2691e;
+    border-radius: 4px;
+    font-family: inherit;
+    resize: vertical;
+  }
+  .contato button {
+    margin-top: 0.5rem;
+    background: #d2691e;
+    color: white;
+    border: none;
+    padding: 0.6rem;
+    font-weight: 700;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .contato button:hover {
+    background: #a0522d;
+  }
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 1rem;
+    background: #8b4513;
+    color: white;
+    font-size: 0.9rem;
+  }
+  /* Responsividade */
+  @media(max-width: 768px) {
+    #carrinho {
+      position: fixed;
+      width: 90vw;
+      left: 50%;
+      top: auto;
+      bottom: 0;
+      transform: translate(-50%, 0);
+      border-radius: 8px 8px 0 0;
+      max-height: 250px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Doces da Maria</h1>
+  <p>Delícias caseiras para adoçar sua vida!</p>
+</header>
+
+<nav>
+  <a href="#produtos">Produtos</a>
+  <a href="#sobre">Sobre</a>
+  <a href="#contato">Contato</a>
+</nav>
+
+<main>
+
+  <section id="produtos">
+    <h2>Nosso Cardápio</h2>
+    <div class="produtos-grid" id="produtos-lista">
+      <!-- Produtos serão inseridos aqui via JS -->
+    </div>
+  </section>
+
+  <section id="sobre" class="sobre">
+    <h2>Sobre Nós</h2>
+    <p>Somos apaixonados por doces caseiros, feitos com carinho e ingredientes selecionados para levar sabor e alegria à sua mesa. Nossa missão é adoçar seus momentos especiais!</p>
+  </section>
+
+  <section id="contato" class="contato">
+    <h2>Contato</h2>
+    <form id="form-contato">
+      <label for="nome">Nome</label>
+      <input type="text" id="nome" name="nome" required />
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required />
+      <label for="mensagem">Mensagem</label>
+      <textarea id="mensagem" name="mensagem" rows="4" required></textarea>
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
+
+</main>
+
+<!-- Carrinho fixo -->
+<div id="carrinho">
+  <h3>Seu Carrinho</h3>
+  <div id="itens-carrinho"></div>
+  <div id="total">Total: R$ 0,00</div>
+  <button id="btn-whatsapp">Enviar Pedido pelo WhatsApp</button>
+</div>
+
+<footer>
+  &copy; 2025 Doces da Maria. Todos os direitos reservados.
+</footer>
+
+<script>
+  // Produtos (exemplo)
+  const produtos = [
+    {
+      id: 1,
+      nome: "Brigadeiro Tradicional",
+      descricao: "Delicioso brigadeiro feito com cacau puro e granulado crocante.",
+      preco: 3.50,
+      imagem: "https://images.unsplash.com/photo-1603097533176-6a2b6aa7f182?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      id: 2,
+      nome: "Beijinho de Coco",
+      descricao: "Doce de coco com toque de leite condensado e granulado branco.",
+      preco: 3.00,
+      imagem: "https://images.unsplash.com/photo-1601924582973-6a978df420f0?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      id: 3,
+      nome: "Pudim de Leite",
+      descricao: "Pudim cremoso feito com leite condensado e calda de caramelo.",
+      preco: 8.00,
+      imagem: "https://images.unsplash.com/photo-1589191365620-07e2b77e3fa4?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      id: 4,
+      nome: "Bolo de Cenoura",
+      descricao: "Bolo fofinho com cobertura de chocolate e nozes crocantes.",
+      preco: 12.00,
+      imagem: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=400&q=80"
+    },
+    {
+      id: 5,
+      nome: "Cupcake de Baunilha",
+      descricao: "Cupcake macio com recheio cremoso e cobertura de chantilly.",
+      preco: 7.00,
+      imagem: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=400&q=80"
+    }
+  ];
+
+  // Variável para carrinho
+  let carrinho = [];
+
+  // Função para formatar preço em moeda brasileira
+  function formatarPreco(preco) {
+    return preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  }
+
+  // Renderizar produtos na página
+  function renderizarProdutos() {
+    const container = document.getElementById('produtos-lista');
+    container.innerHTML = '';
+    produtos.forEach(produto => {
+      const card = document.createElement('div');
+      card.className = 'produto-card';
+      card.innerHTML = `
+        <img src="${produto.imagem}" alt="${produto.nome}" />
+        <div class="produto-info">
+          <h3>${produto.nome}</h3>
+          <p>${produto.descricao}</p>
+          <div class="preco">${formatarPreco(produto.preco)}</div>
+          <button class="btn-comprar" onclick="adicionarAoCarrinho(${produto.id})">Comprar</button>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  // Adicionar produto ao carrinho
+  function adicionarAoCarrinho(id) {
+    const produto = produtos.find(p => p.id === id);
+    if (!produto) return;
+    const itemCarrinho = carrinho.find(item => item.id === id);
+    if (itemCarrinho) {
+      itemCarrinho.quantidade++;
+    } else {
+      carrinho.push({ ...produto, quantidade: 1 });
+    }
+    renderizarCarrinho();
+  }
+
+  // Remover item do carrinho
+  function removerDoCarrinho(id) {
+    carrinho = carrinho.filter(item => item.id !== id);
+    renderizarCarrinho();
+  }
+
+  // Calcular total do carrinho
+  function calcularTotal() {
+    return carrinho.reduce((acc, item) => acc + item.preco * item.quantidade, 0);
+  }
+
+  // Renderizar itens no carrinho
+  function renderizarCarrinho() {
+    const container = document.getElementById('itens-carrinho');
+    container.innerHTML = '';
+    if (carrinho.length === 0) {
+      container.innerHTML = '<p>Seu carrinho está vazio.</p>';
+      document.getElementById('total').textContent = 'Total: R$ 0,00';
+      return;
+    }
+    carrinho.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'item-carrinho';
+      div.innerHTML = `
+        <span>${item.nome} x${item.quantidade}</span>
+        <button onclick="removerDoCarrinho(${item.id})">&times;</button>
+      `;
+      container.appendChild(div);
+    });
+    document.getElementById('total').textContent = 'Total: ' + formatarPreco(calcularTotal());
+  }
+
+  // Enviar pedido pelo WhatsApp
+  document.getElementById('btn-whatsapp').addEventListener('click', () => {
+    if (carrinho.length === 0) {
+      alert('Seu carrinho está vazio!');
+      return;
+    }
+    const numeroWhats = '5511999999999'; // Troque pelo seu número com DDD, ex: 5511999999999
+    let mensagem = 'Olá! Gostaria de fazer o pedido:\n';
+    carrinho.forEach(item => {
+      mensagem += `- ${item.nome} x${item.quantidade}\n`;
+    });
+    mensagem += `Total: ${formatarPreco(calcularTotal())}`;
+    const url = `https://api.whatsapp.com/send?phone=${numeroWhats}&text=${encodeURIComponent(mensagem)}`;
+    window.open(url, '_blank');
+  });
+
+  // Formulário de contato
+  document.getElementById('form-contato').addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Mensagem enviada! Entraremos em contato em breve.');
+    e.target.reset();
+  });
+
+  // Inicializar página
+  renderizarProdutos();
+  renderizarCarrinho();
+</script>
+
+</body>
+</html>
